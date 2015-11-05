@@ -1,6 +1,6 @@
 /*
-* This will act as an http server at http://localhost:8080/. GET requests made
-* to http://localhost:8080/<:name> will return a greeting with the supplied name.
+* This will act as an http server at http://localhost:<PORT>/. GET requests made
+* to http://localhost:<PORT>/<:name> will return a greeting with the supplied name.
 */
 var http = require('http');
 var Hello = require('./hello');
@@ -13,7 +13,7 @@ greeter.on('fileRead', function(filePath) {
   console.log('fileRead event: ' + filePath);
 });
 
-//We need a function which handles requests and send response
+// Handles the incoming request and sends back a response of the greeting
 function handleRequest(request, response) {
   var name = request.url.replace('/', '');
 

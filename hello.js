@@ -1,8 +1,12 @@
 var fs = require('fs');
 var events = require('events');
+var util = require("util");
 
+// Create a constructor function
 function Hello(filePath) {
   this.filePath = filePath;
+
+  // Initialize event emitter
   events.EventEmitter.call(this);
 
   this.hello = function(name, cb) {
@@ -11,6 +15,7 @@ function Hello(filePath) {
         return cb(err);
       }
 
+      // Let them know what's happening
       this.emit('fileRead', this.filePath);
 
       var message = greeting.trim() + ' ' + name;
@@ -18,7 +23,6 @@ function Hello(filePath) {
     }.bind(this));
   };
 }
-
-Hello.prototype.__proto__ = events.EventEmitter.prototype;
+util.inherits(Hello, events.EventEmitter);
 
 module.exports = Hello;
