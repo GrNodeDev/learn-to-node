@@ -3,15 +3,21 @@
 * to http://localhost:8080/<:name> will return a greeting with the supplied name.
 */
 var http = require('http');
-var hello = require('./hello');
+var Hello = require('./hello');
 
-const PORT=8282;
+var PORT=8282;
+var filepath = './helloGreeting.txt';
+
+var greeter = new Hello(filepath);
+greeter.on('fileRead', function(filePath) {
+  console.log('fileRead event: ' + filePath);
+});
 
 //We need a function which handles requests and send response
 function handleRequest(request, response) {
   var name = request.url.replace('/', '');
 
-  hello(name, function(err, greeting) {
+  greeter.hello(name, function(err, greeting) {
     response.end(greeting + '\n');
   })
 }

@@ -3,12 +3,20 @@
 * function.
 */
 var assert = require('assert');
-var hello = require('../hello.js');
+var Hello = require('../hello.js');
+
+var filePath = './cheersGreeting.txt';
+var greeter;
 
 describe('hello', function() {
+
+  beforeEach(function() {
+    greeter = new Hello(filePath);
+  });
+
   it('should say cheers using the name given', function(done) {
-    hello('jason', function(err, greeting) {
-      assert.equal(greeting, 'Hello jason');
+    greeter.hello('jason', function(err, greeting) {
+      assert.equal(greeting, 'Cheers jason');
       done();
     });
   });

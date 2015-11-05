@@ -13,4 +13,11 @@ function makeRequest(name) {
   });
 };
 
-makeRequest('Tim');
+var name;
+if (process.argv.length > 2) {
+   name = process.argv[2];
+} else {
+    name = "???";
+}
+
+makeRequest(name);

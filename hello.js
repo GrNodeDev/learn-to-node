@@ -1,16 +1,24 @@
 var fs = require('fs');
+var events = require('events');
 
-var filepath = './greeting.txt';
+function Hello(filePath) {
+  this.filePath = filePath;
+  events.EventEmitter.call(this);
 
-function hello(name, cb) {
-  fs.readFile(filepath, 'utf8', function(err, greeting) {
-    if (err) {
-      return cb(err);
-    }
+  this.hello = function(name, cb) {
+    fs.readFile(this.filePath, 'utf8', function(err, greeting) {
+      if (err) {
+        return cb(err);
+      }
 
-    var message = greeting.trim() + ' ' + name;
-    return cb(null, message);
-  });
+      this.emit('fileRead', this.filePath);
+
+      var message = greeting.trim() + ' ' + name;
+      return cb(null, message);
+    }.bind(this));
+  };
 }
 
-module.exports = hello;
+Hello.prototype.__proto__ = events.EventEmitter.prototype;
+
+module.exports = Hello;
